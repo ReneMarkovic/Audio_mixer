@@ -245,12 +245,14 @@ class AudioMixerGUI(tk.Frame):
         #letters_track = self.add_reverb(letters_track, reverb_intensity=self.letters_reverb.get(), decay_factor=0.5)
         letters_track = self.volume_adjust(letters_track, slider_value=self.letters_volume.get())
         letters_track = self.adjust_length(letters_track)
-        letters_track = ae.delay(letters_track, self.recital_reverb.get()/1000.0, unit=10)
+        
+        letters_track = ae.delay(letters_track, interval=self.letters_reverb.get()/1000.0, unit=10)
         
         recital_track = AudioSegment.from_file(recital_path)
-        #recital_track = self.add_reverb(recital_track, reverb_intensity=self.recital_reverb.get(), decay_factor=0.5)
-        #recital_track = ae.delay(recital_track,
-
+        recital_track = self.add_reverb(recital_track, reverb_intensity=self.recital_reverb.get(), decay_factor=0.5)
+        recital_track = ae.delay(recital_track,
+                                 interval=self.recital_reverb.get()/1000.0,
+                                    unit=10)
         recital_track = self.volume_adjust(recital_track, slider_value=self.recital_volume.get())
         #apply fade in/out to recital track
         print("Fade-in:",self.recital_fade_in.get())
